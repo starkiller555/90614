@@ -1,0 +1,265 @@
+[
+    {
+        "id": "83c8f118.75a7a",
+        "type": "tab",
+        "label": "Flow 12",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "af387be0.30d898",
+        "type": "mqtt in",
+        "z": "83c8f118.75a7a",
+        "name": "",
+        "topic": "esp32/data",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "aa3107cbb6f29f72",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 150,
+        "y": 180,
+        "wires": [
+            [
+                "5904df93.876848",
+                "cc73b057.9fa05"
+            ]
+        ]
+    },
+    {
+        "id": "1dc26853.5e8b8",
+        "type": "ui_gauge",
+        "z": "83c8f118.75a7a",
+        "name": "",
+        "group": "cabb92b2.eaa2c8",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "°C",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "150",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 550,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "5904df93.876848",
+        "type": "function",
+        "z": "83c8f118.75a7a",
+        "name": "",
+        "func": "msg.payload = parseInt (msg.payload);\nglobal.set (\"temp\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 180,
+        "wires": [
+            [
+                "1dc26853.5e8b8"
+            ]
+        ]
+    },
+    {
+        "id": "cc73b057.9fa05",
+        "type": "debug",
+        "z": "83c8f118.75a7a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "9292580d.d2928",
+        "type": "function",
+        "z": "83c8f118.75a7a",
+        "name": "",
+        "func": "\nmsg.topic = \"INSERT INTO caldera (nocaldera, temperatura) VALUE ('\" + global.get (\"noCaldera\") +\"','\" + global.get (\"temp\") + \"')\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 320,
+        "wires": [
+            [
+                "e99a5a68.cbfb5"
+            ]
+        ]
+    },
+    {
+        "id": "e99a5a68.cbfb5",
+        "type": "mysql",
+        "z": "83c8f118.75a7a",
+        "mydb": "5985bd1225719007",
+        "name": "",
+        "x": 910,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e0b9c100.b218f8",
+        "type": "ui_slider",
+        "z": "83c8f118.75a7a",
+        "name": "",
+        "label": "Caldera No:",
+        "tooltip": "",
+        "group": "cabb92b2.eaa2c8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "4",
+        "step": 1,
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "f78e5d84.b8f2c8"
+            ]
+        ]
+    },
+    {
+        "id": "f78e5d84.b8f2c8",
+        "type": "function",
+        "z": "83c8f118.75a7a",
+        "name": "",
+        "func": "global.set (\"noCaldera\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "319fae32.fc5962",
+        "type": "ui_button",
+        "z": "83c8f118.75a7a",
+        "name": "",
+        "group": "cabb92b2.eaa2c8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Guardar Dato",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 410,
+        "y": 320,
+        "wires": [
+            [
+                "9292580d.d2928"
+            ]
+        ]
+    },
+    {
+        "id": "9658c285.cfd998",
+        "type": "ui_template",
+        "z": "83c8f118.75a7a",
+        "group": "cabb92b2.eaa2c8",
+        "name": "",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/vyxsboqQthE\" title=\"YouTube video player\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 450,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aa3107cbb6f29f72",
+        "type": "mqtt-broker",
+        "name": "LocalHost",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "hugo-sub-nodered",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "cabb92b2.eaa2c8",
+        "type": "ui_group",
+        "name": "Temperatura Infrarroja",
+        "tab": "c96e6f5d.ee4018",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "5985bd1225719007",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "datos",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "c96e6f5d.ee4018",
+        "type": "ui_tab",
+        "name": "Temperatura IoT",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
